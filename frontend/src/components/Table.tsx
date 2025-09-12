@@ -60,12 +60,67 @@ export default function Table() {
     { field: "Qualified?" },
     { field: "Created At" },
     { field: "Updated At" },
+    {
+        headerName: "Update Lead",
+        field: "update",
+        width : 20,
+        cellRenderer: (params: any) => {
+          return (
+            <button
+              onClick={() => handleUpdate(params.data)}
+              className="bg-blue-600 text-white px-2 py-1 rounde-xl"
+            >
+              Update
+            </button>
+          );
+        },
+      },
+      {
+        headerName: "Delete",
+        field: "delete",
+        width : 20,
+        cellRenderer: (params: any) => {
+          return (
+            <button
+              onClick={() => handleDelete(params.data)}
+              className="bg-red-500 text-white px-2 py-1 rounde-xl"
+            >
+              Delete
+            </button>
+          );
+        },
+      },
+    
   ]);
 
   const defaultColDef: ColDef = {
     flex: 1,
   };
 
+  const handleUpdate = (lead: IRow) => {
+    
+    axios
+      .put(`http://localhost:3001/crud/lead/${lead.Email}`, { status: "contacted" }, { withCredentials: true })
+      .then((res) => {
+        // Update rowData locally
+        setRowData((prev) =>
+          prev.map((r) => (r.Email === lead.Email ? { ...r, Status: res.data.status } : r))
+        );
+      })
+      .catch((err) => console.error(err));
+  };
+  
+  const handleDelete = (lead: IRow & { _id: string }) => {
+    console.log("Deleting lead:", lead._id);
+    axios
+      .delete(`http://localhost:3001/crud/lead/${lead._id}`, { withCredentials: true })
+      .then(() => {
+        setRowData((prev) => prev.filter((r) => r._id !== lead._id));
+      })
+      .catch((err) => console.error(err));
+  };
+  
+  
   useEffect(() => {
     axios
       .get("http://localhost:3001/crud/leads", {withCredentials : true, params: {
@@ -82,6 +137,7 @@ export default function Table() {
       }, })
       .then((res) => {
         const leads = res.data.data.map((lead: any) => ({
+            _id: lead._id,
           "First Name": lead.first_name,
           "Last Name": lead.last_name,
           Email: lead.email,
@@ -195,6 +251,7 @@ export default function Table() {
                 />
                 Qualified Only
             </label>
+
       </div>
       <AgGridReact
         rowData={rowData}
