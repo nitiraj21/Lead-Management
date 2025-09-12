@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(cookieParser());
 dotenv.config();
 const allowedOrigins = [
-    "https://your-frontend.onrender.app", 
+    "https://lead-management-blush-nu.vercel.app", 
     "http://localhost:5173"              
   ];
 app.use(cors({
