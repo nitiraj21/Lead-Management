@@ -13,6 +13,8 @@ exports.createLead = void 0;
 const Lead_1 = require("../models/Lead");
 const createLead = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        //@ts-ignore
+        console.log("UserId from token:", req.userId);
         const leadData = Object.assign(Object.assign({}, req.body), { 
             //@ts-ignore
             user_id: req.userId });
@@ -21,6 +23,7 @@ const createLead = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.status(201).json({ message: "Lead Created" });
     }
     catch (error) {
+        console.error("Error creating lead:", error);
         res.status(500).json({ message: "Server error", error });
     }
 });
