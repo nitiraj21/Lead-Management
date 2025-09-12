@@ -112,6 +112,9 @@ export default function Register(){
               )}
             </button>
         </form>
+        <div className="flex justify-end text-blue-600 pt-3">
+          <button onClick={()=>{navigate("/signin")}}>already have an account?</button>
+        </div>
         {error && (
             <div className="mb-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm">
               {error}

@@ -76,7 +76,7 @@ export default function Table() {
               setModal(true);
               setId(params.data._id);
             }}
-            className="bg-blue-600 text-white px-2 py-1 rounded-xl"
+            className="bg-blue-600 text-white px-2 py-1"
           >
             Update
           </button>
@@ -92,7 +92,7 @@ export default function Table() {
         return (
           <button
             onClick={() => handleDelete(params.data)}
-            className="bg-red-500 text-white px-2 py-1 rounded-xl"
+            className="bg-red-500 text-white px-2 py-1 "
           >
             Delete
           </button>
@@ -223,7 +223,6 @@ export default function Table() {
         </div>
       )}
 
-      {/* 🔎 Filters */}
       <div className="mb-4">
         <input
           type="text"
