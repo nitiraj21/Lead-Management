@@ -23,11 +23,11 @@ export const getLeads  = async (req : Request, res : Response) =>{
         }
 
         if(req.query.company_contain){
-            filter.email  = {$regex : req.query.company_contain, $options : 'i'}
+            filter.company  = {$regex : req.query.company_contain, $options : 'i'}
         }
 
         if(req.query.city_contain){
-            filter.email  = {$regex : req.query.city_contain, $options : 'i'}
+            filter.city  = {$regex : req.query.city_contain, $options : 'i'}
         }
 
         if(req.query.email_contain){
@@ -84,7 +84,7 @@ export const getLeads  = async (req : Request, res : Response) =>{
 
         const total = await LeadModel.countDocuments(filter)
 
-        const leads = await LeadModel.find({user_id : id}).skip(skip).limit(limit);
+        const leads = await LeadModel.find(filter).skip(skip).limit(limit);
 
         return res.status(200).json({data : leads, page, limit, total, totalPages : Math.ceil(total/limit)});
 
