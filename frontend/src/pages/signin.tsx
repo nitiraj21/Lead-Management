@@ -20,7 +20,7 @@ export default function Signin(){
 
             try
             {
-                const response = await axios.post("http://localhost:3001/auth/signin", {
+                const response = await axios.post(`https://lead-managementbe.onrender.com/auth/signin`, {
                     email,
                     password
                 }, {withCredentials : true})
@@ -75,13 +75,16 @@ export default function Signin(){
               {isLoading ? (
                 <div className="flex items-center justify-center">
                   <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent mr-2"></div>
-                  Creating Account...
+                  Signing ...
                 </div>
               ) : (
-                "Create Account"
+                "Signin"
               )}
             </button>
         </form>
+        <div className="flex justify-end text-blue-600 pt-3">
+          <button onClick={()=>{navigate("register")}}>create an account</button>
+        </div>
         {error && (
             <div className="mb-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm">
               {error}

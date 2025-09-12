@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
 
-const JWT = process.env.JWT_secret || "secret"
+const JWT = "secret"
 
 export const middleware=  (req : Request, res : Response, next : NextFunction) =>{
     const token = req.cookies.token;

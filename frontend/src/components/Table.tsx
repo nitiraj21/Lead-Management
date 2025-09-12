@@ -107,7 +107,7 @@ export default function Table() {
 
   const handleDelete = (lead: IRow & { _id: string }) => {
     axios
-      .delete(`http://localhost:3001/crud/leads/${lead._id}`, {
+      .delete(`https://lead-managementbe.onrender.com/crud/leads/${lead._id}`, {
         withCredentials: true,
       })
       .then(() => {
@@ -120,7 +120,7 @@ export default function Table() {
 
   const fetchLeads = () => {
     axios
-      .get("http://localhost:3001/crud/leads", {
+      .get("https://lead-managementbe.onrender.com/crud/leads", {
         withCredentials: true,
         params: {
           page,

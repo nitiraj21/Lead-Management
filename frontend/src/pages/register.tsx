@@ -34,7 +34,7 @@ export default function Register(){
 
             try
             {
-                const response = await axios.post("http://localhost:3001/auth/register", {
+                const response = await axios.post("https://lead-managementbe.onrender.com/auth/register", {
                     email,
                     password
                 })

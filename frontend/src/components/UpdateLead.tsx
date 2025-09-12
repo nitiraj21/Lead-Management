@@ -50,7 +50,7 @@ export default function UpdateLead({ _id, onClose }: UpdateLeadProps){
 
             try
             {
-                const response = await axios.put(`http://localhost:3001/crud/leads/${_id}`, {
+                const response = await axios.put(`https://lead-managementbe.onrender.com/crud/leads/${_id}`, {
                     first_name,
                     last_name,
                     email,
