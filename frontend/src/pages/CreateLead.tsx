@@ -49,7 +49,7 @@ export default function CreateLead(){
 
             try
             {
-                const response = await axios.post("http://localhost:3001/crud/lead", {
+                const response = await axios.post("https://lead-managementbe.onrender.com/crud/lead", {
                     first_name,
                     last_name,
                     email,
