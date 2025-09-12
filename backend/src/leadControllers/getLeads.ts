@@ -30,10 +30,6 @@ export const getLeads  = async (req : Request, res : Response) =>{
             filter.city  = {$regex : req.query.city_contain, $options : 'i'}
         }
 
-        if(req.query.email_contain){
-            filter.email  = {$regex : req.query.email_contain, $options : 'i'}
-        }
-
 
         if (req.query.status) {
             filter.status = req.query.status;
@@ -43,6 +39,9 @@ export const getLeads  = async (req : Request, res : Response) =>{
             filter.status = { $in: (req.query.status_in as string).split(",") };
         }
 
+        if (req.query.source) {
+          filter.source = req.query.source;
+      }
         if (req.query.source_in) {
             filter.source = { $in: (req.query.source_in as string).split(",") };
         }

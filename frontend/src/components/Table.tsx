@@ -34,6 +34,16 @@ export default function Table() {
   const [pages, setPages] = useState(20)
   const [limit, setLimit] = useState(10);
   const [total, setTotal] = useState(0);
+  const [filterStatus, setFilterStatus] = useState("")
+  const [filterCompany, setFilterCompany]  = useState("")
+  const [filterEmail, setFilterEmail] =  useState("")
+  const [filterCity, setFilterCity] =  useState("")
+  const [filterSource, setFilterSource] = useState("")
+  const [minScore, setMinScore] = useState<number>()
+  const [maxScore, setMaxScore] = useState<number>()
+  const [createdFrom, setCreatedFrom] = useState<string | undefined>(undefined);
+  const [createdTo, setCreatedTo] = useState<string | undefined>(undefined);
+  const [filterQualified, setFilterQualified] = useState<boolean | undefined>()
 
   const [colDefs] = useState<ColDef<IRow>[]>([
     { field: "First Name" },
@@ -58,7 +68,18 @@ export default function Table() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/crud/leads", {withCredentials : true})
+      .get("http://localhost:3001/crud/leads", {withCredentials : true, params: {
+        pages,
+        limit,
+        email_contain : filterEmail || undefined,
+        company_contain: filterCompany || undefined,
+        city_contain : filterCity || undefined,
+        status: filterStatus || undefined,
+        source : filterSource || undefined,
+        score_between: minScore && maxScore ? `${minScore},${maxScore}` : undefined,
+        created_between: createdFrom && createdTo ? `${createdFrom},${createdTo}` : undefined,
+        is_qualified: filterQualified ? "true" : undefined
+      }, })
       .then((res) => {
         const leads = res.data.data.map((lead: any) => ({
           "First Name": lead.first_name,
@@ -84,10 +105,97 @@ export default function Table() {
       .catch((err) => console.error("Error fetching users:", err));
     
       
-  }, []);
+  }, [filterCompany, filterStatus, filterCity, filterEmail, filterSource, minScore, maxScore, filterQualified, createdFrom, createdTo]);
 
   return (
     <div className="ag-theme-alpine px-6 py-6 mt-5" style={{ width: "full", height: "700px" }}>
+        <div>
+            <input
+                type="text"
+                placeholder="Filter by email..."
+                value={filterEmail}
+                onChange={(e) => setFilterEmail(e.target.value)}
+                className="border p-2 m-2"
+            />
+            <input
+                type="text"
+                placeholder="Filter by company..."
+                value={filterCompany}
+                onChange={(e) => setFilterCompany(e.target.value)}
+                className="border p-2 m-2"
+            />
+            <input
+                type="text"
+                placeholder="Filter by city..."
+                value={filterCity}
+                onChange={(e) => setFilterCity(e.target.value)}
+                className="border p-2 m-2"
+            />
+            <select
+                value={filterStatus}
+                onChange={(e) => setFilterStatus(e.target.value)}
+                className="border p-2 m-2"
+            >
+                <option value="">All Status</option>
+                <option value="new">New</option>
+                <option value="contacted">Contacted</option>
+                <option value="qualified">Qualified</option>
+                <option value="lost">Lost</option>
+                <option value="won">Won</option>
+            </select>
+
+            <select
+                value={filterSource}
+                onChange={(e) => setFilterSource(e.target.value)}
+                className="border p-2 m-2"
+            >
+                <option value="">All Sources</option>
+                <option value="website">Website</option>
+                <option value="facebook_ads">Facebook Ads</option>
+                <option value="google_ads">Google Ads</option>
+                <option value="referral">Referral</option>
+                <option value="events">Events</option>
+                <option value="other">Other</option> 
+            </select>
+
+            <input
+                type="number"
+                placeholder="Min Score"
+                value={minScore}
+                onChange={(e) => setMinScore(e.target.value as unknown as number)}
+                className="border p-2 m-2"
+            />
+            <input
+                type="number"
+                placeholder="Max Score"
+                value={maxScore}
+                onChange={(e) => setMaxScore(e.target.value as unknown as number)}
+                className="border p-2 m-2"
+            />
+
+            <input
+                type="date"
+                value={createdFrom}
+                onChange={(e) => setCreatedFrom(e.target.value)}
+                className="border p-2 m-2"
+            />
+            <input
+                type="date"
+                value={createdTo}
+                onChange={(e) => setCreatedTo(e.target.value)}
+                className="border p-2 m-2"
+            />
+
+            <label className="border border-2 rounded-lg px-2 py-2">
+                <input
+                    type="checkbox"
+                    checked={filterQualified}
+                    onChange={(e) => setFilterQualified(e.target.checked)}
+                    className="mr-2"
+                />
+                Qualified Only
+            </label>
+      </div>
       <AgGridReact
         rowData={rowData}
         columnDefs={colDefs}
