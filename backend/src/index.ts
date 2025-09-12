@@ -16,7 +16,8 @@ app.use(express.json());
 app.use(cookieParser());
 dotenv.config();
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
-mongoose.connect(process.env.DB || "").then(()=>{console.log("DB connected", process.env.DB)}).catch((error) =>{console.log(error, "cant connect",  process.env.DB)})
+//@ts-ignore
+mongoose.connect(process.env.DB).then(()=>{console.log("DB connected", process.env.DB)}).catch((error) =>{console.log(error, "cant connect",  process.env.DB)})
 
 app.use("/auth", userRoutes);
 app.use("/crud", leadRoutes);
