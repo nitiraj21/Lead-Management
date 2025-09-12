@@ -8,10 +8,10 @@ import { middleware } from "../middleware/middleware";
 
 const router = Router();
 
-router.post("/lead", middleware, createLead);
+router.post("/leads", middleware, createLead);
 router.get("/leads", middleware,getLeads)
-router.get("/lead/:id", middleware,getLeadByID)
-router.put("/lead/:id", middleware,updateLead)
-router.delete("/lead/:id", middleware, deleteLead)
+router.get("/leads/:id", middleware,getLeadByID)
+router.put("/leads/:id", middleware,updateLead)
+router.delete("/leads/:id", middleware, deleteLead)
 
 export default router;
