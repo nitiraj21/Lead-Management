@@ -17,12 +17,6 @@ export default function Signin(){
             const formData = new FormData(e.currentTarget);
             const email = formData.get("email") as string;
             const password = formData.get("password") as string;
-          
-            if (password.length < 6) {
-                setError("Password must be at least 6 characters");
-                setIsLoading(false);
-                return;
-            }
 
             try
             {
@@ -69,7 +63,7 @@ export default function Signin(){
                 type="password"
                 required
                 placeholder="Create a password"
-                minLength={6}
+                minLength={2}
                 className="w-full px-4 py-3 bg-gray-100 border border-gray-600 rounded-lg text-gray-900 placeholder-gray-400 "
               />
             </div>
