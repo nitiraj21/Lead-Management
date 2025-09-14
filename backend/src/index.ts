@@ -15,20 +15,12 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 dotenv.config();
-const allowedOrigins = [
-    "https://lead-management-blush-nu.vercel.app", 
-    "http://localhost:5173"              
-  ];
-app.use(cors({
-    origin: function(origin, callback){
-      if(!origin) return callback(null, true); 
-      if(allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
+  app.use(cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true); 
+      return callback(null, origin);
     },
-    credentials: true,
+    credentials: true, 
   }));
 //@ts-ignore
 mongoose.connect(process.env.DB).then(()=>{console.log("DB connected", process.env.DB)}).catch((error) =>{console.log(error, "cant connect",  process.env.DB)})
